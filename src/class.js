@@ -17,33 +17,13 @@ function slurpFile (filename, fa) {
     // ie support if (typeof ActiveXObject == "function") return this.load_binary_ie9(filename, fa);
     xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.open('GET', "testRuntime/" + filename, false);
-    if ('mozResponseType' in xmlHttpRequest) {
-        xmlHttpRequest.mozResponseType = 'arraybuffer';
-    } else if ('responseType' in xmlHttpRequest) {
-        xmlHttpRequest.responseType = 'arraybuffer';
-    } else {
-        xmlHttpRequest.overrideMimeType('text/plain; charset=x-user-defined');
-    }
+    xmlHttpRequest.overrideMimeType('text/plain; charset=x-user-defined');
     xmlHttpRequest.send(null);
     if (xmlHttpRequest.status != 200 && xmlHttpRequest.status != 0) {
         throw "Error while loading " + filename;
     }
-    var bf = true;
-    if ('mozResponse' in xmlHttpRequest) {
-        response = xmlHttpRequest.mozResponse;
-    } else if (xmlHttpRequest.mozResponseArrayBuffer) {
-        response = xmlHttpRequest.mozResponseArrayBuffer;
-    } else if ('responseType' in xmlHttpRequest) {
-        response = xmlHttpRequest.response;
-    } else {
-        response = xmlHttpRequest.responseText;
-        bf = false;
-    }
-    if (bf) {
-        result = [response.byteLength, response];
-    } else {
-        result = [response.length, response]
-    }
+    response = xmlHttpRequest.responseText;
+    result = [response.length, response]
     return result;
 };
 /** @constructor */
