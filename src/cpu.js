@@ -30,14 +30,14 @@ var JVM = function(params,args){
         }
     }
     this.stringHashCode = function(string){
-    	var hash = 0;
-    	if (string.length == 0) return hash;
-    	for (i = 0; i < string.length; i++) {
-    		Char = string.charCodeAt(i);
-    		hash = ((hash<<5)-hash)+Char;
-    		hash = hash & hash; // Convert to 32bit integer
-    	}
-    	return hash;
+        var hash = 0;
+        if (string.length == 0) return hash;
+        for (i = 0; i < string.length; i++) {
+            Char = string.charCodeAt(i);
+            hash = ((hash<<5)-hash)+Char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
     }
     
     this.makeInstanceOfStringFromJSSTring = function(string){
@@ -63,7 +63,7 @@ var JVM = function(params,args){
         }
         if(!loaded_class.inited){
             loaded_class.initializeClass();
-			LOG("[Inited " + name  + "]");
+            LOG("[Inited " + name  + "]");
         }
         return loaded_class;
         
@@ -90,21 +90,21 @@ var JVM = function(params,args){
                 that.verifyAndLoadClass(canonicalName(constant.name_ref));    
             }, CONSTANT_Class);*/
     };
-	this.createPrimitiveTypes = function() {
-		this.primitive_boolean = {type: T_boolean, 'toString' : instanceToString, 'class' : this.java_lang_class};
-		this.primitive_byte    = {type: T_byte,    'toString' : instanceToString, 'class' : this.java_lang_class};
-		this.primitive_char    = {type: T_char,    'toString' : instanceToString, 'class' : this.java_lang_class};
-		this.primitive_short   = {type: T_short,   'toString' : instanceToString, 'class' : this.java_lang_class};
-		this.primitive_int     = {type: T_int,     'toString' : instanceToString, 'class' : this.java_lang_class};
-		this.primitive_float   = {type: T_float,   'toString' : instanceToString, 'class' : this.java_lang_class};
-		this.primitive_long    = {type: T_long,    'toString' : instanceToString, 'class' : this.java_lang_class};		
-		this.primitive_double  = {type: T_double,  'toString' : instanceToString, 'class' : this.java_lang_class};		
-	};
+    this.createPrimitiveTypes = function() {
+        this.primitive_boolean = {type: T_boolean, 'toString' : instanceToString, 'class' : this.java_lang_class};
+        this.primitive_byte    = {type: T_byte,    'toString' : instanceToString, 'class' : this.java_lang_class};
+        this.primitive_char    = {type: T_char,    'toString' : instanceToString, 'class' : this.java_lang_class};
+        this.primitive_short   = {type: T_short,   'toString' : instanceToString, 'class' : this.java_lang_class};
+        this.primitive_int     = {type: T_int,     'toString' : instanceToString, 'class' : this.java_lang_class};
+        this.primitive_float   = {type: T_float,   'toString' : instanceToString, 'class' : this.java_lang_class};
+        this.primitive_long    = {type: T_long,    'toString' : instanceToString, 'class' : this.java_lang_class};        
+        this.primitive_double  = {type: T_double,  'toString' : instanceToString, 'class' : this.java_lang_class};        
+    };
     
     this.run = function (){
         this.java_lang_object = this.classForName("java.lang.Object");
         this.java_lang_class = this.classForName("java.lang.Class");
-		this.createPrimitiveTypes();
+        this.createPrimitiveTypes();
         this.java_lang_cloneable = this.classForName("java.lang.Cloneable");
         this.java_io_serializable = this.classForName("java.io.Serializable");
         this.java_lang_string = this.classForName("java.lang.String");
@@ -112,7 +112,7 @@ var JVM = function(params,args){
         this.main_class.initializeClass();
         var method = this.main_class["method main([Ljava/lang/String;)V"];
         if (method == null){
-            PANIC(this.args[0] + " doesn't have a a main method");
+            PANIC(this.args[0] + " doesn't have a main method");
         }
         var array = make1DNativeArray(this.args.length,false,this.java_lang_string);
         for (var i=0; i<this.args.length; i++){
